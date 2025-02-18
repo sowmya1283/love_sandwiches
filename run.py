@@ -31,20 +31,22 @@ def get_sales_data():
 
         data_str =  input("Enter your data here: ")
 
-        print(f"the data provided is {data_str}")
+        #print(f"the data provided is {data_str}")
 
         sales_data= list(data_str.split(","))
+        print(f'this is sales data {sales_data}')  # Fixed the print statement
         validate_data(sales_data)
 
         if validate_data(sales_data):
             print("Data is valid!")
             break
 
-        return sales_data
+    return sales_data
+       
 
 def validate_data(values):
 
-    print(values)
+    #print(values)
     try:
         [int(value) for value in values]
         if len(values)!=6:
@@ -54,6 +56,21 @@ def validate_data(values):
     except ValueError as e:
         print(f"Invalid data: {e}, please try again. \n")
         return False
+    
     return True
 
+
+def update_sales_worksheet(data):
+    """
+    pdate sales worksheet, add new row with the list of data provided
+    """
+    print("updating sales worksheet...\n")
+    update_sales_worksheet = SHEET.worksheet("sales")
+    update_sales_worksheet.append_row(data)
+    print("sales worksheet updated successfully\n")
+
 data= get_sales_data()
+print(data)
+
+sales_data=[int(num) for num in data]
+update_sales_worksheet(sales_data)
